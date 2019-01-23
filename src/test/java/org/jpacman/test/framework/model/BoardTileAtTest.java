@@ -16,21 +16,58 @@ import org.junit.runners.Parameterized.Parameters;
 /**
  * Test the Board.tileAt method by means of a series of test cases with
  * Parameterized data.
- * 
+ *
  * @author Arie van Deursen, TU Delft, Feb 10, 2012
  */
 @RunWith(Parameterized.class)
 public class BoardTileAtTest {
-
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private int startx, starty;
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private Direction dir;
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private int nextx, nexty;
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private Board board;
-
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private static final int WIDTH = 10;
+	/**
+	 * Test.
+	 *
+	 * @author Saeed
+	 */
 	private static final int HEIGHT = 20;
-
-	public BoardTileAtTest(int x, int y, Direction d, int nx, int ny) {
+	/**
+	 * @param x Test.
+	 * @param y Test.
+	 * @param d Test.
+	 * @param nx Test.
+	 * @param ny Test.
+	 *
+	 * @author Saeed
+	 */
+	public BoardTileAtTest(final int x, final int y, final Direction d,
+			final int nx, final int ny) {
 		startx = x;
 		starty = y;
 		dir = d;
@@ -39,6 +76,9 @@ public class BoardTileAtTest {
 		board = new Board(WIDTH, HEIGHT);
 	}
 
+	/**
+	 * Test.
+	 */
 	@Test
 	public void testTileAtDirection() {
 		Tile source = board.tileAt(startx, starty);
@@ -47,15 +87,21 @@ public class BoardTileAtTest {
 		assertEquals(desired, actual);
 	}
 
+	/**
+	 * Test.
+	 *
+	 * @return Test.
+	 */
 	@Parameters
 	public static Collection<Object[]> data() {
+		final int v1 = 3, v2 = 2;
 		Object[][] values = new Object[][] {
 				// x-axis boundaries, y random inpoints
 				// left boundary
 				{2, 2, Direction.UP, 2, 1 },
-				{2, 2, Direction.DOWN, 2, 3},
+				{2, 2, Direction.DOWN, 2, v1},
 				{2, 2, Direction.LEFT, 1, 2 },
-				{2, 2, Direction.RIGHT, 3, 2},
+				{2, 2, Direction.RIGHT, v1, v2},
 				// worm holes
 				{0, 2, Direction.LEFT, WIDTH - 1, 2 },
 				{WIDTH - 1, 2, Direction.RIGHT, 0, 2 },
