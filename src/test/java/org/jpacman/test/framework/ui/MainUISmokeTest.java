@@ -10,13 +10,22 @@ import org.junit.Test;
  * Smoke test for the main UI: Just start it
  * and interact with it to see if no exceptions are thrown.
  * The bare minimum for any test suite.
- * 
+ *
  * @author Arie van Deursen, TU Delft, Feb 4, 2012
  */
 public class MainUISmokeTest {
-	
+	/**
+	 * Smoke test for the main UI: Just start it
+	 * and interact with it to see if no exceptions are thrown.
+	 * The bare minimum for any test suite.
+	 *
+	 * @author Arie van Deursen, TU Delft, Feb 4, 2012
+	 * @throws FactoryException Test.
+	 * @throws InterruptedException Test.
+	 */
 	@Test
-	public void testUIActions() throws FactoryException, InterruptedException {
+	public void testUIActions() throws FactoryException,
+		InterruptedException {
 		MainUI ui = new MainUI();
 		ui.initialize();
 		ui.start();
@@ -26,16 +35,15 @@ public class MainUISmokeTest {
 		eventHandler.start();
 		eventHandler.up();
 		eventHandler.left();
-
+		final int ten = 10;
 		// give the monsters some time to move.
-		Thread.sleep(10 * AbstractGhostMover.DELAY);
+		Thread.sleep(ten * AbstractGhostMover.DELAY);
 
 		// and attempt some moves again.
 		eventHandler.down();
 		eventHandler.stop();
 		eventHandler.start();
 		eventHandler.right();
-		
 		// and we're done.
 		eventHandler.exit();
 	}
