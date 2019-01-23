@@ -18,11 +18,10 @@ import org.jpacman.framework.view.BoardView;
 
 /**
  * The main user interface for jpacman.
- * 
+ *
  * @author Arie van Deursen, TU Delft, Jan 14, 2012
  */
 public class MainUI extends JFrame implements Observer, IDisposable {
-	
     /**
      * Universal version ID for serialization.
      */
@@ -42,15 +41,24 @@ public class MainUI extends JFrame implements Observer, IDisposable {
 	 * The main window components.
 	 */
 	private PointsPanel points;
+	/**
+	 * The main window components.
+	 */
 	private BoardView boardView;
+	/**
+	 * The main window components.
+	 */
 	private ButtonPanel buttonPanel;
-	
+
 	/**
 	 * Controllers that will trigger certain events.
 	 */
 	private transient IController ghostController;
+	/**
+	 * The main window components.
+	 */
 	private transient Animator animator;
-	
+
 
 	/**
 	 * Create all the ui components and attach appropriate
@@ -60,56 +68,48 @@ public class MainUI extends JFrame implements Observer, IDisposable {
     private void createUI() throws FactoryException {
     	assert theGame != null;
     	assert ghostController != null;
-    	
+
     	buttonPanel = new ButtonPanel(this);
     	buttonPanel.initialize();
-    	
+
     	pi = new PacmanInteraction(this, theGame);
-    	pi.addController(ghostController);   	
+    	pi.addController(ghostController);
     	buttonPanel.setListener(pi);
         this.addKeyListener(new PacmanKeyListener(pi));
-    	
+
       	boardView = createBoardView();
       	animator = new Animator(boardView);
       	pi.addController(animator);
-      	
     	points = new PointsPanel();
     	points.initialize(theGame.getPointManager());
     	theGame.attach(points);
-    	
     	JPanel mainGrid = new JPanel();
     	mainGrid.setLayout(new BorderLayout());
     	mainGrid.setName("jpacman.topdown");
     	mainGrid.add(points, BorderLayout.NORTH);
     	mainGrid.add(boardView, BorderLayout.CENTER);
     	mainGrid.add(buttonPanel, BorderLayout.SOUTH);
- 
         getContentPane().add(mainGrid);
-        
         int width = Math.max(boardView.windowWidth(), buttonPanel.getWidth());
         int height = boardView.windowHeight() + buttonPanel.getHeight();
         setSize(width, height);
         setGridSize();
-        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         setName("jpacman.main");
-        setTitle("JPacman");  
+        setTitle("JPacman");
     }
-    
+
     /**
      * Establish the appropriate size of the main window,
      * based on the sizes of the underlying components.
      */
     private void setGridSize() {
-        int width = Math.max(boardView.windowWidth(), 
+        int width = Math.max(boardView.windowWidth(),
         		buttonPanel.getWidth());
-        
-        int height = 
+        int height =
         		points.getHeight()
         		+ boardView.windowHeight()
         		+ buttonPanel.getHeight();
-        
         setSize(width, height);
     }
 
@@ -121,7 +121,7 @@ public class MainUI extends JFrame implements Observer, IDisposable {
      * @param arg Ignored
      */
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(final Observable o, final Object arg) {
     	boardView.repaint();
     }
 
@@ -133,9 +133,8 @@ public class MainUI extends JFrame implements Observer, IDisposable {
         theGame = createModel();
         theGame.attach(this);
         ghostController = new RandomGhostMover(theGame);
-      	createUI();   	
+      	createUI();
     }
-    	
     /**
      * Actually start the the controllers, and show the UI.
      */
@@ -144,32 +143,38 @@ public class MainUI extends JFrame implements Observer, IDisposable {
         setVisible(true);
         requestFocus();
 	}
-	
+	/**
+	 * The main window components.
+	 * @return Test.
+	 * @throws FactoryException Test.
+	 */
 	private BoardView createBoardView() throws FactoryException {
 		return new BoardView(theGame.getBoard());
 	}
-	
+	/**
+	 * The main window components.
+	 * @return Test.
+	 * @throws FactoryException Test.
+	 */
 	private Game createModel() throws FactoryException {
 		MapParser parser = new MapParser(
 				new DefaultGameFactory());
 		return parser.parseFromFile("board.txt");
 	}
-	
 	/**
 	 * @return The mapping between keyboard events and model events.
 	 */
 	public IKeyboardEvents eventHandler() {
 		return pi;
 	}
-		
 	/**
 	 * Main starting point of the JPacman game.
 	 * @param args Ignored
 	 * @throws FactoryException If reading game map fails.
 	 */
-	public static void main(String[] args) throws FactoryException {		
+	public static void main(final String[] args) throws FactoryException {
 		MainUI ui = new MainUI();
 		ui.initialize();
-		ui.start();		
+		ui.start();
 	}
 }
